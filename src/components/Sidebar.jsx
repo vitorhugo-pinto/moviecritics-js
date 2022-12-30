@@ -1,13 +1,26 @@
 import { Avatar } from './Avatar';
-import { SignOut } from 'phosphor-react';
+import { SignOut, FolderStar, HouseLine} from 'phosphor-react';
 
 
 import styles from './Sidebar.module.css';
+import { useNavigate } from 'react-router-dom';
 
 export function Sidebar({user, onLogOut}) {
+    const navigate = useNavigate()
+
     function handleLogOut(){
         onLogOut();
     }
+
+    function goToMyFavorites(){
+        navigate('/my-favorites')
+    }
+
+    function goToHome(){
+        navigate('/home')
+    }
+
+    
 
     return (
         <aside className={styles.sidebar}>
@@ -21,6 +34,18 @@ export function Sidebar({user, onLogOut}) {
                 />
                 <strong>{user.name}</strong>
                 <span>{user.email}</span>
+                <span>
+                    <a onClick={goToHome} href='#'>
+                        <HouseLine size={24} />
+                        Home
+                    </a>
+                </span>
+                <span>
+                    <a onClick={goToMyFavorites} href='#'>
+                        <FolderStar size={24} weight="fill" />
+                        My favs
+                    </a>
+                </span>
             </div>
             <footer>
                 <a onClick={handleLogOut} href='#'>
