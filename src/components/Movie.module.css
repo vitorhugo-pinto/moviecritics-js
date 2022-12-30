@@ -55,7 +55,6 @@ Style every post that has a post before it
 .contentInfo header a {
     background: transparent;
     color: var(--green-500);
-    border: 1px solid var(--green-500);
     border-radius: 8px;
     height: 28px;
     width: 28px;
