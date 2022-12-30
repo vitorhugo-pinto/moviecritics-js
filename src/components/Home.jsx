@@ -101,7 +101,7 @@ export function Home() {
         }
       })
       if (res.ok) {
-        fetchFavorites
+        fetchFavorites()
       }
     }
     else if(isFavorite) {
@@ -113,7 +113,7 @@ export function Home() {
         }
       })
       if (res.ok) {
-        fetchFavorites
+        fetchFavorites()
       }
     }
   }

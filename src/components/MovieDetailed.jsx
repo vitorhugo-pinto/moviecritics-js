@@ -20,7 +20,28 @@ const apiKey = "&apikey=676ea1a";
 
 export function MovieDetailed() {
   const id = useParams().id;
+
   const [movie, setMovie] = useState();
+
+  const [ reviewTextAreaValue, setReviewTextAreaValue ] = useState('');
+
+  function handleAddNewReview() {
+    event.preventDefault();
+
+    const reviewJson =
+    {
+      comment: reviewTextAreaValue,
+      stars: 5
+    };
+
+    postReview(reviewJson);
+
+    setReviewTextAreaValue('');
+  };
+
+  function handleReviewTextAreaValueChange() {
+    setReviewTextAreaValue(event.target.value);
+}
 
   useEffect(() => {
     const omdbapi = `${baseURL}${id}${apiKey}`;
@@ -48,6 +69,20 @@ export function MovieDetailed() {
       fetchReviews();
     }
   }, [])
+
+  async function postReview(review) {
+    const res = await fetch(tstapi + 'reviews/' + id, {
+      method: 'POST',
+      body: JSON.stringify(review),
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token,
+      }
+    });
+    if(res.ok){
+      fetchReviews();
+    }
+  }
 
   async function fetchUser() {
     const res = await fetch(tstapi + 'auth/me', {
@@ -81,6 +116,8 @@ export function MovieDetailed() {
     navigate('/');
   }
 
+  const isReviewTextAreaValueEmpty = reviewTextAreaValue.length === 0;
+
   return (
     <div>
       <Header />
@@ -90,23 +127,22 @@ export function MovieDetailed() {
           <MovieDetailedCard
             movie={movie}
           />
-          <form className={styles.commentForm}>
+          <form onSubmit={handleAddNewReview} className={styles.commentForm}>
             <strong>Leave a review</strong>
 
             <textarea
               name='reviewTextArea'
               placeholder='Speak your mind'
-              // value={commentTextAreaValue}
-              // onChange={handleCommentTextAreaTextChange}
+              value={reviewTextAreaValue}
+              onChange={handleReviewTextAreaValueChange}
 
-              // onInvalid={setCommentValidation}
               required
             />
 
             <footer>
               <button
                 type='submit'
-              // disabled={isCommentTextAreaValueEmpty}
+                disabled={isReviewTextAreaValueEmpty}
               >
                 Post
               </button>
@@ -119,7 +155,7 @@ export function MovieDetailed() {
             </header>
             {reviews.map((review) => {
               return (
-                <div className={styles.commentContainer}>
+                <div key={review.comment} className={styles.commentContainer}>
                   <span>Author: {review.user.name}</span>
                   <span>{review.comment}</span>
                 </div>
