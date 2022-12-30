@@ -1,0 +1,62 @@
+.wrapper {
+    max-width: 25rem;
+    margin: 2rem auto;
+}
+
+.login {
+    background: var(--gray-800);
+    border-radius: 8px;
+    padding: 2.5rem;
+}
+
+.loginForm {
+    text-align: center;
+    width: 100%;
+    margin-top: 1.5rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--gray-600);
+}
+
+.loginForm > strong {
+    line-height: 1.6;
+    color: var(--gray-100);
+}
+
+.loginForm input {
+    width: 100%;
+    background: var(--gray-900);
+    border: 0;
+    resize: none;
+    padding: 1rem;
+    border-radius: 8px;
+    color: var(--gray-100);
+    line-height: 1.4;
+    margin-top: 1rem;
+}
+
+.loginForm button[type=submit] {
+    padding: 1rem 1.5rem;
+    margin-top: 1rem;
+    border-radius: 8px;
+    border: 0;
+    background: var(--green-500);
+    color: var(--white);
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.1s;
+    align-items: flex-end;
+}
+
+.loginForm button[type=submit]:not(:disabled):hover {
+    background: var(--green-300);
+}
+
+.loginForm button[type=submit]:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.loginForm footer p {
+    margin-top: 1rem;
+    text-align: center;
+}

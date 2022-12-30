@@ -1,0 +1,28 @@
+.wrapper {
+    max-width: 70rem;
+    margin: 2rem auto;
+    padding: 0 1rem;
+
+    display: grid;
+    grid-template-columns: 256px 1fr;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+@media (max-width: 768px) {
+    /* 
+    Devido ao uso de rem como unidade de medida,
+    faz sentido redimensionar o font-size para o 
+    tamanho de mobile para caber mais informação na tela.
+    1rem = 16px = 100%, logo para 14px tem-se 87.5%.
+    Não utilizar em pixel pois este seria um valor fixo e 
+    não um valor relativo.
+    */
+    html {
+        font-size: 87.5%;
+    }
+
+    .wrapper {
+        grid-template-columns: 1fr;
+    }
+}
