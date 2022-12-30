@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Header } from "./Header";
+import { GoBackButton } from "./GoBackButton";
 import styles from "./Signup.module.css";
 
 const tstapi = 'https://tstapi.ffcloud.com.br/';
@@ -83,6 +84,7 @@ export function Signup() {
       <div className={styles.wrapper}>
         <main>
           <div className={styles.login}>
+          <GoBackButton />
             <form onSubmit={handleSignup} className={styles.loginForm}>
               <p>
                 <strong>Create new account</strong>
