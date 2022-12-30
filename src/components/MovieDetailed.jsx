@@ -37,26 +37,43 @@ export function MovieDetailed() {
 
   const [user, setUser] = useContext(UserContext);
 
+  const [reviews, setReviews] = useState([]);
+
   useEffect(() => {
     if(token === ''){
       navigate('/');
     }
     if (token) {
-      async function fetchUser() {
-          const res = await fetch(tstapi + 'auth/me', {
-            method: 'GET',
-            headers: {
-              'Authorization': `Bearer ${token}`
-            }
-          });
-          if (res.ok) {
-            const json = await res.json();
-            setUser(json);
-          }
-      }
       fetchUser();
+      fetchReviews();
     }
   }, [])
+  
+  async function fetchUser() {
+      const res = await fetch(tstapi + 'auth/me', {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      if (res.ok) {
+        const json = await res.json();
+        setUser(json);
+      }
+  }
+
+  async function fetchReviews() {
+    const res = await fetch(tstapi + 'reviews/' + id, {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    if (res.ok) {
+      const json = await res.json();
+      setReviews(json.reviews);
+    }
+}
 
   function logOut() {
     setToken('');
@@ -73,6 +90,19 @@ export function MovieDetailed() {
           <MovieDetailedCard
             movie={movie}
           />
+          <div className={styles.content}>
+            <header>
+              Reviews
+            </header>
+            {reviews.map((review) => {
+              return (
+                <div className={styles.commentContainer}>
+                  <span>Author: {review.user.name}</span>
+                  <span>{review.comment}</span>
+                </div>
+              )
+            })}
+          </div>
         </main>
       </div>
     </div>
