@@ -40,7 +40,7 @@ export function MovieDetailed() {
   const [reviews, setReviews] = useState([]);
 
   useEffect(() => {
-    if(token === ''){
+    if (token === '') {
       navigate('/');
     }
     if (token) {
@@ -48,18 +48,18 @@ export function MovieDetailed() {
       fetchReviews();
     }
   }, [])
-  
+
   async function fetchUser() {
-      const res = await fetch(tstapi + 'auth/me', {
-        method: 'GET',
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-      if (res.ok) {
-        const json = await res.json();
-        setUser(json);
+    const res = await fetch(tstapi + 'auth/me', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
       }
+    });
+    if (res.ok) {
+      const json = await res.json();
+      setUser(json);
+    }
   }
 
   async function fetchReviews() {
@@ -73,7 +73,7 @@ export function MovieDetailed() {
       const json = await res.json();
       setReviews(json.reviews);
     }
-}
+  }
 
   function logOut() {
     setToken('');
@@ -85,11 +85,34 @@ export function MovieDetailed() {
     <div>
       <Header />
       <div className={styles.wrapper}>
-      <Sidebar user={user} onLogOut={logOut}/>
+        <Sidebar user={user} onLogOut={logOut} />
         <main>
           <MovieDetailedCard
             movie={movie}
           />
+          <form className={styles.commentForm}>
+            <strong>Leave a review</strong>
+
+            <textarea
+              name='reviewTextArea'
+              placeholder='Speak your mind'
+              // value={commentTextAreaValue}
+              // onChange={handleCommentTextAreaTextChange}
+
+              // onInvalid={setCommentValidation}
+              required
+            />
+
+            <footer>
+              <button
+                type='submit'
+              // disabled={isCommentTextAreaValueEmpty}
+              >
+                Post
+              </button>
+            </footer>
+
+          </form>
           <div className={styles.content}>
             <header>
               Reviews
