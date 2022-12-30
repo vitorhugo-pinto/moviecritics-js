@@ -55,6 +55,20 @@
     line-height: 1.6;
 }
 
+.commentContainer button {
+    background: transparent;
+    border: 0;
+    color: var(--gray-400);
+    cursor: pointer;
+    /* line-height 0 para que quando o botão seja selecionado, sua selação seja condizente com o tamanho do ícone */
+    line-height: 0; 
+    border-radius: 2px;
+}
+
+.commentContainer button:hover {
+    color: var(--red-500);
+}
+
 .commentForm {
     background: var(--gray-800);
     width: 100%;

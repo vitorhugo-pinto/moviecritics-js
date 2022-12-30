@@ -1,6 +1,7 @@
 import { Header } from "./Header";
 import { MovieDetailedCard } from "./MovieDetailedCard";
 import { Sidebar } from "./Sidebar";
+import { Trash } from 'phosphor-react';
 
 import styles from "./MovieDetailed.module.css";
 
@@ -23,7 +24,7 @@ export function MovieDetailed() {
 
   const [movie, setMovie] = useState();
 
-  const [ reviewTextAreaValue, setReviewTextAreaValue ] = useState('');
+  const [reviewTextAreaValue, setReviewTextAreaValue] = useState('');
 
   function handleAddNewReview() {
     event.preventDefault();
@@ -39,9 +40,13 @@ export function MovieDetailed() {
     setReviewTextAreaValue('');
   };
 
+  function handleDeleteReview() {
+    deleteReview()
+  }
+
   function handleReviewTextAreaValueChange() {
     setReviewTextAreaValue(event.target.value);
-}
+  }
 
   useEffect(() => {
     const omdbapi = `${baseURL}${id}${apiKey}`;
@@ -70,6 +75,18 @@ export function MovieDetailed() {
     }
   }, [])
 
+  async function deleteReview() {
+    const res = await fetch(tstapi + 'reviews/' + id, {
+      method: 'DELETE',
+      headers: {
+        'Authorization': 'Bearer ' + token
+      }
+    });
+    if (res.ok) {
+      fetchReviews();
+    }
+  }
+
   async function postReview(review) {
     const res = await fetch(tstapi + 'reviews/' + id, {
       method: 'POST',
@@ -79,7 +96,7 @@ export function MovieDetailed() {
         'Authorization': 'Bearer ' + token,
       }
     });
-    if(res.ok){
+    if (res.ok) {
       fetchReviews();
     }
   }
@@ -127,6 +144,7 @@ export function MovieDetailed() {
           <MovieDetailedCard
             movie={movie}
           />
+
           <form onSubmit={handleAddNewReview} className={styles.commentForm}>
             <strong>Leave a review</strong>
 
@@ -158,6 +176,11 @@ export function MovieDetailed() {
                 <div key={review.comment} className={styles.commentContainer}>
                   <span>Author: {review.user.name}</span>
                   <span>{review.comment}</span>
+                  {review.user.name === user.name &&
+                    <button onClick={handleDeleteReview} title='Delete review'>
+                      <Trash size={24} />
+                    </button>
+                  }
                 </div>
               )
             })}
