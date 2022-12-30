@@ -25,7 +25,6 @@ export function Signup() {
   }
 
   function setEmailValidation() {
-    console.log(emailInputValue.length)
     if (emailInputValue.length === 0) {
       event.target.setCustomValidity("Email input is empty!");
     } else {
