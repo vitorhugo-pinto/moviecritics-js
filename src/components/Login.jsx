@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { Header } from "./Header";
+import { AuthContext } from "../AuthContext";
 import styles from "./Login.module.css";
 
 const tstapi = 'https://tstapi.ffcloud.com.br/';
 
 export function Login() {
   const navigate = useNavigate();
+
+  const [token, setToken] = useContext(AuthContext);
 
   const [emailInputValue, setEmailInputValue] = useState("");
 
@@ -56,7 +59,7 @@ export function Login() {
     })
     if (res.ok) {
       const json = await res.json();
-      // setToken(json.user.token);
+      setToken(json.user.token);
       localStorage.setItem('token', json.user.token);
       navigate('/home');
     } else {
