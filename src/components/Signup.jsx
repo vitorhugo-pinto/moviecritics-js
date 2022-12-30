@@ -69,10 +69,12 @@ export function Signup() {
       }
     })
     if (res.ok) {
-      const json = await res.json();
-      // setToken(json.user.token);
-      localStorage.setItem('token', json.user.token);
-      navigate('/');
+      if(alert('User created successfully')){
+        navigate('/login');
+      }
+    }
+    else {
+      alert('User not created')
     }
   }
 
