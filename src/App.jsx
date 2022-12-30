@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { Home } from "./components/Home";
+import { MyFavorites } from "./components/MyFavorites";
 import { Login } from "./components/Login";
 import { MovieDetailed } from "./components/MovieDetailed";
 import { Signup } from "./components/Signup";
@@ -26,6 +27,8 @@ export function App() {
             <Route path="/login" element={<Login />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/movie-details/:id" element={<MovieDetailed />} />
+            <Route path="/my-favorites" element={<MyFavorites />} />
+            
           </Routes>
         </BrowserRouter>
       </UserContext.Provider>
