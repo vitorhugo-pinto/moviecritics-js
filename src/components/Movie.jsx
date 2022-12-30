@@ -3,11 +3,15 @@ import styles from './Movie.module.css';
 import { Poster } from './Poster';
 import { Star } from 'phosphor-react';
 
-export function Movie({id, title, year, poster, isFavorite}) {
+export function Movie({id, title, year, poster, isFavorite, onHandleFavorite}) {
     const navigate = useNavigate();
 
     function toDetails(id){
         navigate('/movie-details/' + id)
+    }
+
+    function handleFavorite(){
+        onHandleFavorite(id, isFavorite)
     }
 
     return (
@@ -17,12 +21,16 @@ export function Movie({id, title, year, poster, isFavorite}) {
                     <Poster src={poster} />
                     <div className={styles.contentInfo}>
                         <header>
-                            {isFavorite && <a href='#'>
-                                <Star size={20} weight="fill" />
-                            </a>}
-                            {!isFavorite && <a href='#'>
-                                <Star size={20} />
-                            </a>}
+                            {isFavorite && 
+                                <a onClick={handleFavorite} href='#'>
+                                    <Star size={20} weight="fill" />
+                                </a>
+                            }
+                            {!isFavorite && 
+                                <a onClick={handleFavorite} href='#'>
+                                    <Star size={20} />
+                                </a>
+                            }
                             
                         </header>
                         <strong>{title}</strong>

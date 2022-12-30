@@ -50,25 +50,24 @@ export function Home() {
   }, [])
   
   useEffect(()=>{
-    async function fetchFavorites(){
-        const res = await fetch(tstapi + 'favorites', {
-          method: 'GET',
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
-        if (res.ok) {
-          const json = await res.json();
-          const imddIDs = json.favorites.map((item) => {
-            return item.imdbID
-          })
-          setFavorites(imddIDs)
-          console.log(imddIDs)
-        }
-    }
     fetchFavorites()
-  },[])
+  },[favorites])
 
+  async function fetchFavorites(){
+    const res = await fetch(tstapi + 'favorites', {
+      method: 'GET',
+      headers: {
+        'Authorization': `Bearer ${token}`
+      }
+    });
+    if (res.ok) {
+      const json = await res.json();
+      const imddIDs = json.favorites.map((item) => {
+        return item.imdbID
+      })
+      setFavorites(imddIDs)
+    }
+  }
 
   function searchMovies(movieInputValue) {
     const movieToSearch = movieInputValue.split(' ').join('+');
@@ -90,6 +89,36 @@ export function Home() {
     navigate('/');
   }
 
+  async function handleFavorites(id, isFavorite) {
+    if(!isFavorite){
+      const data = {imdbID: id}
+      const res = await fetch(tstapi + 'favorites', {
+        method: 'POST',
+        body: JSON.stringify(data),
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token,
+        }
+      })
+      if (res.ok) {
+        fetchFavorites
+      }
+    }
+    else if(isFavorite) {
+      const res = await fetch(tstapi + 'favorites/' + id, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + token,
+        }
+      })
+      if (res.ok) {
+        fetchFavorites
+      }
+    }
+  }
+  
+
   return (
     <>
       {token !== '' && (
@@ -100,8 +129,6 @@ export function Home() {
           <main>
             <Search onSearch={searchMovies}/>
             {movies.map(movie => {
-              console.log(movie.imdbID)
-              console.log(favorites)
               if(favorites.includes(movie.imdbID)){
                 return (
                   <Movie 
@@ -111,6 +138,7 @@ export function Home() {
                     year={movie.Year}
                     poster={movie.Poster}
                     isFavorite={true}
+                    onHandleFavorite={handleFavorites}
                   />
                 )    
               } else {
@@ -122,6 +150,7 @@ export function Home() {
                     year={movie.Year}
                     poster={movie.Poster}
                     isFavorite={false}
+                    onHandleFavorite={handleFavorites}
                   />
                 )
               }
