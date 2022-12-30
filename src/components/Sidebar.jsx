@@ -35,20 +35,20 @@ export function Sidebar({user, onLogOut}) {
                 <strong>{user.name}</strong>
                 <span>{user.email}</span>
                 <span>
-                    <a onClick={goToHome} href='#'>
+                    <a onClick={goToHome}>
                         <HouseLine size={24} />
                         Home
                     </a>
                 </span>
                 <span>
-                    <a onClick={goToMyFavorites} href='#'>
+                    <a onClick={goToMyFavorites}>
                         <FolderStar size={24} weight="fill" />
                         My favs
                     </a>
                 </span>
             </div>
             <footer>
-                <a onClick={handleLogOut} href='#'>
+                <a onClick={handleLogOut}>
                     <SignOut size={20} />
                     Log out
                 </a>

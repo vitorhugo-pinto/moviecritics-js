@@ -38,6 +38,7 @@
 }
 
 .sidebar a {
+    cursor: pointer;
     background: transparent;
     color: var(--green-500);
     border: 1px solid var(--green-500);

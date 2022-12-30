@@ -1,6 +1,7 @@
 import { Header } from "./Header";
 import { MovieDetailedCard } from "./MovieDetailedCard";
 import { Sidebar } from "./Sidebar";
+import { GoBackButton } from "./GoBackButton";
 import { Trash } from 'phosphor-react';
 
 import styles from "./MovieDetailed.module.css";
@@ -141,6 +142,7 @@ export function MovieDetailed() {
       <div className={styles.wrapper}>
         <Sidebar user={user} onLogOut={logOut} />
         <main>
+          <GoBackButton />
           <MovieDetailedCard
             movie={movie}
           />

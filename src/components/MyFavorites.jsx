@@ -1,6 +1,7 @@
 import { Header } from "./Header";
 import { MovieDetailedCard } from "./MovieDetailedCard";
 import { Sidebar } from "./Sidebar";
+import { GoBackButton } from "./GoBackButton";
 
 import styles from "./MyFavorites.module.css";
 
@@ -90,6 +91,7 @@ export function MyFavorites() {
       <div className={styles.wrapper}>
       <Sidebar user={user} onLogOut={logOut}/>
         <main>
+          <GoBackButton />
             {favoritesMovies.map((movie) => {
                 return (
                 <MovieDetailedCard 
