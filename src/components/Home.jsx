@@ -24,6 +24,10 @@ export function Home() {
 
   const [user, setUser] = useContext(UserContext);
 
+  const [favorites, setFavorites] = useState([]);
+
+  const [movies, setMovies] = useState([]);
+
   useEffect(() => {
     if(token === ''){
       navigate('/');
@@ -45,8 +49,27 @@ export function Home() {
     }
   }, [])
   
-  const [movies, setMovies] = useState([]);
-  
+  useEffect(()=>{
+    async function fetchFavorites(){
+        const res = await fetch(tstapi + 'favorites', {
+          method: 'GET',
+          headers: {
+            'Authorization': `Bearer ${token}`
+          }
+        });
+        if (res.ok) {
+          const json = await res.json();
+          const imddIDs = json.favorites.map((item) => {
+            return item.imdbID
+          })
+          setFavorites(imddIDs)
+          console.log(imddIDs)
+        }
+    }
+    fetchFavorites()
+  },[])
+
+
   function searchMovies(movieInputValue) {
     const movieToSearch = movieInputValue.split(' ').join('+');
     const omdbapi = `${baseURL}${movieToSearch}${apiKey}`;
@@ -77,15 +100,31 @@ export function Home() {
           <main>
             <Search onSearch={searchMovies}/>
             {movies.map(movie => {
-              return (
-                <Movie 
-                  key={movie.imdbID}
-                  id={movie.imdbID}
-                  title={movie.Title}
-                  year={movie.Year}
-                  poster={movie.Poster}
-                />
-              )
+              console.log(movie.imdbID)
+              console.log(favorites)
+              if(favorites.includes(movie.imdbID)){
+                return (
+                  <Movie 
+                    key={movie.imdbID}
+                    id={movie.imdbID}
+                    title={movie.Title}
+                    year={movie.Year}
+                    poster={movie.Poster}
+                    isFavorite={true}
+                  />
+                )    
+              } else {
+                return (
+                  <Movie 
+                    key={movie.imdbID}
+                    id={movie.imdbID}
+                    title={movie.Title}
+                    year={movie.Year}
+                    poster={movie.Poster}
+                    isFavorite={false}
+                  />
+                )
+              }
             })}
           </main>
         </div>

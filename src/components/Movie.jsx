@@ -3,7 +3,7 @@ import styles from './Movie.module.css';
 import { Poster } from './Poster';
 import { Star } from 'phosphor-react';
 
-export function Movie({id, title, year, poster}) {
+export function Movie({id, title, year, poster, isFavorite}) {
     const navigate = useNavigate();
 
     function toDetails(id){
@@ -17,9 +17,13 @@ export function Movie({id, title, year, poster}) {
                     <Poster src={poster} />
                     <div className={styles.contentInfo}>
                         <header>
-                            <a href='#'>
+                            {isFavorite && <a href='#'>
+                                <Star size={20} weight="fill" />
+                            </a>}
+                            {!isFavorite && <a href='#'>
                                 <Star size={20} />
-                            </a>
+                            </a>}
+                            
                         </header>
                         <strong>{title}</strong>
                         <span>{year}</span>
